@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include('partials/head') %>
+  <body>
+    <%- include('partials/header') %>
+    <main class="container">
+      <h1>Registración</h1>
+      <form action="/users/register" method="get" class="form">
+        <label>Email
+          <input type="email" name="email" required />
+        </label>
+        <label>Usuario
+          <input type="text" name="username" required />
+        </label>
+        <label>Contraseña
+          <input type="password" name="password" required />
+        </label>
+        <button class="btn">Crear cuenta</button>
+      </form>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>
+

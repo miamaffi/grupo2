@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include('partials/head') %>
+  <body>
+    <%- include('partials/header') %>
+    <main class="container">
+      <h1>Agregar producto</h1>
+      <form action="/products/create/new" method="get" class="form">
+        <label>Imagen (URL de texto)
+          <input type="text" name="image" placeholder="/img/ejemplo.jpg" required />
+        </label>
+        <label>Nombre del producto
+          <input type="text" name="name" required />
+        </label>
+        <label>Descripción
+          <textarea name="description" rows="4" required></textarea>
+        </label>
+        <button class="btn">Enviar</button>
+      </form>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>

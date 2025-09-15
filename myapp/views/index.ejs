@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include('partials/head') %>
+  <body>
+    <%- include('partials/header') %>
+    <main class="container">
+      <h1>Catálogo</h1>
+
+      <% const list = Array.isArray(products) ? products : []; %>  
+      <% if (list.length) { %>
+        <section class="grid">
+          <% for (const p of list) { %>
+            <article class="card">
+              <img src="<%= p.image %>" alt="<%= p.name %>">
+              <h2><%= p.name %></h2>
+              <p><%= p.description %></p>
+              <p class="muted"><%= p.commentsCount %> comentario(s)</p>
+              <a class="btn" href="/products/<%= p.id %>">Ver detalle</a>
+            </article>
+          <% } %>
+        </section>
+      <% } else { %>
+        <p class="muted">Todavía no hay productos para mostrar.</p>
+      <% } %>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>
+
+
+

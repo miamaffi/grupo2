@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include('partials/head') %>
+  <body>
+    <%- include('partials/header') %>
+    <main class="container">
+      <article class="product-detail">
+        <img src="<%= product.image %>" alt="<%= product.name %>" />
+        <h1><%= product.name %></h1>
+        <p><%= product.description %></p>
+
+        <section class="comments">
+          <h3>Comentarios (<%= product.comments.length %>)</h3>
+          <ul>
+            <% for (const c of product.comments) { %>
+              <li><strong><%= c.user %>:</strong> <%= c.text %></li>
+            <% } %>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>

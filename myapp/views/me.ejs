@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include('partials/head') %>
+  <body>
+    <%- include('partials/header') %>
+    <main class="container profile">
+      <div class="profile-header">
+        <img class="avatar" src="<%= user.avatar %>" alt="<%= user.username %>" />
+        <div>
+          <h1>@<%= user.username %></h1>
+          <p><%= user.email %></p>
+        </div>
+      </div>
+    </main>
+    <%- include('partials/footer') %>
+  </body>
+</html>
