@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
-  <%- include('partials/head') %>
-  <body>
-    <%- include('partials/header') %>
-    <main class="container">
-      <h1>Login</h1>
-      <!--  formulario por GET (requisito de esta entrega) -->
-      <form action="/users/login" method="get" class="form">
+<!-- Include Head -->
+<%- include('partials/head') %>
+<body>
+	<!-- Header -->
+  <%- include('partials/header') %>
+	<!-- Novedades -->
+	<div class="container products-wrapper">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="products-title">Ingresar</h2>
+			</div>
+			<!-- Show the "ultimos" products -->
+			<h2 class="col-12"> </h2>
+      <form action="/auth/login" method="GET">
         <label>Email
-          <input type="email" name="email" required />
+        <input name="email" type="email" required>
         </label>
         <label>Contraseña
-          <input type="password" name="password" required />
+        <input name="password" type="password" required>
         </label>
-        <label class="checkbox">
-          <input type="checkbox" name="remember" /> Recordarme
+        <label>
+        <input name="remember" type="checkbox"> Recordarme
         </label>
-        <button class="btn">Ingresar</button>
-      </form>
-    </main>
-    <%- include('partials/footer') %>
-  </body>
+        <button>Ingresar</button>
+        </form>
+	<!-- /footer -->
+  <%- include('partials/footer') %>
+</body>
 </html>

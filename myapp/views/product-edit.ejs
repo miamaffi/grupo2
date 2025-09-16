@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Include Head -->
+<%- include('partials/head') %>
+<body>
+	<!-- Header -->
+	<%- include('partials/header') %>
+	<!-- Novedades -->
+	<div class="container products-wrapper">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="products-title">Editar datos del producto</h2>
+			</div>
+			<!-- Show the "ultimos" products -->
+			<h2 class="col-12"> </h2>
+			<form action="/products/<%= id %>/edit" method="GET">
+				<!-- Imagen -->
+				<div class="mb-3">
+				  <label for="image">Imagen (URL)</label>
+				  <input type="text" id="image" name="image" value="<%= product.image %>">
+				</div>
+				<!-- Nombre -->
+				<div class="mb-3">
+				  <label for="name">Nombre del producto</label>
+				  <input type="text" id="name" name="name" value="<%= product.name %>">
+				</div>
+				<!-- Descripción -->
+				<div class="mb-3">
+				  <label for="description">Descripción</label>
+				  <textarea id="description" name="description" rows="4"><%= product.description %></textarea>
+				</div>
+				<!-- Botón -->
+				<button type="submit">Guardar cambios</button>
+			  </form>
+	<!-- /footer -->
+	<%- include('partials/footer') %>
+</body>
+</html>

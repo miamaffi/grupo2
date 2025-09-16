@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
-  <%- include('partials/head') %>
-  <body>
-    <%- include('partials/header') %>
-    <main class="container">
-      <h1>Agregar producto</h1>
-      <form action="/products/create/new" method="get" class="form">
-        <label>Imagen (URL de texto)
-          <input type="text" name="image" placeholder="/img/ejemplo.jpg" required />
-        </label>
-        <label>Nombre del producto
-          <input type="text" name="name" required />
-        </label>
-        <label>Descripción
-          <textarea name="description" rows="4" required></textarea>
-        </label>
-        <button class="btn">Enviar</button>
-      </form>
-    </main>
-    <%- include('partials/footer') %>
-  </body>
+<!-- Include Head -->
+<%- include('partials/head') %>
+<body>
+	<!-- Header -->
+	<%- include('partials/header') %>
+	<!-- Novedades -->
+	<div class="container products-wrapper">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="products-title">Agregar productos</h2>
+			</div>
+			<!-- Show the "ultimos" products -->
+			<h2 class="col-12"></h2>
+      <!-- Formulario -->
+      <div class="col-12 col-md-8 offset-md-2">
+        <form action="/products/create" method="GET">
+          <!-- Imagen -->
+          <div class="mb-3">
+            <label for="image" class="form-label">Imagen (URL)</label>
+            <input type="text" class="form-control" id="image" name="image" placeholder="Pegá la URL de la imagen">
+          </div>
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Nombre del producto</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Ej: Zapatillas deportivas">
+          </div>
+          <!-- Descripción -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Escribí una breve descripción del producto"></textarea>
+          </div>
+          <!-- Botón -->
+          <button type="submit" class="btn btn-primary w-100">Agregar producto</button>
+        </form>
+
+
+	<!-- /footer -->
+  <%- include('partials/footer') %>
+</body>
 </html>

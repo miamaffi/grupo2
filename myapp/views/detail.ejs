@@ -1,24 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
-  <%- include('partials/head') %>
-  <body>
-    <%- include('partials/header') %>
-    <main class="container">
-      <article class="product-detail">
-        <img src="<%= product.image %>" alt="<%= product.name %>" />
-        <h1><%= product.name %></h1>
-        <p><%= product.description %></p>
+<!-- Include Head -->
+<%- include('partials/head') %>
+<body>
+	<!-- Header -->
+	<%- include('partials/header') %>
+	<!-- product detail -->
+	<div class="container products-wrapper">
+		<div class="d-flex align-items-center">
+			<h2 class="products-title">Nombre del producto</h2> 
+			<p class="product-detail-description">
+				<a href="product-edit.html">Editar</a>
+			</p>
+		</div>
+		<div class="product-detail">
+			<div class="row">
+				<article class="col-12 col-lg-8 product-detail-info">
+					<img src="./images/products/default-image.png" alt="" class="product-detail-img">
+					<p class="product-detail-description">
+						Descripción corta del producto. En la página principal solo se ven 2 líneas de estar descripción.Lorem ipsum dolor,
+						sit amet consectetur adipisicing elit. Tae ipsam amet eum, totam dolore libero illo unde? Consectetur dolorem neque
+						veritatis.</p>
+				</article>
+				<div class="col-12 col-lg-4">
+					<section class="comments">
+						<article>
+							<img src="./images/users/profile-default.png" alt="">
+							<div class="data">
+								<p class="user">
+								<strong> <a href="profile.html">Nombre usuario: </a> </strong>
+								 Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora doloribus enim aspernatur fugit corrupti suscipit sit dolore magnam, praesentium explicabo inventore molestias facilis labore. Fugit ipsa mollitia odit inventore consequuntur.</p>
+							</div>
+						</article>
+						<article>
+							<img src="./images/users/profile-default.png" alt="">
+							<div class="data">
+								<p class="user">
+									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
+									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur.</p>
+							</div>
+						</article>
+						<article>
+							<img src="./images/users/profile-default.png" alt="">
+							<div class="data">
+								<p class="user">
+									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
+									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur adipisicing elit.
+									</p>
+							</div>
+						</article>
+						<article>
+							<img src="./images/users/profile-default.png" alt="">
+							<div class="data">
+								<p class="user">
+									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
+									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet.</p>
+							</div>
+						</article>
+						<article>
+							<img src="./images/users/profile-default.png" alt="">
+							<div class="data">
+								<p class="user">
+									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
+									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur adipisicing elit.
+									Tempora doloribus enim aspernatur fugit corrupti suscipit sit dolore</p>
+							</div>
+						</article>
 
-        <section class="comments">
-          <h3>Comentarios (<%= product.comments.length %>)</h3>
-          <ul>
-            <% for (const c of product.comments) { %>
-              <li><strong><%= c.user %>:</strong> <%= c.text %></li>
-            <% } %>
-          </ul>
-        </section>
-      </article>
-    </main>
-    <%- include('partials/footer') %>
-  </body>
+					</section>
+					<form class="form" action="" method="POST">
+						<input class="form-input" type="text" value="" placeholder="Agregar comentario">
+						<button type="submit" class="buy-now-button">AGREGAR COMENTARIO</button>
+					</form>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /product detail -->
+<!-- /footer -->
+<%- include('partials/footer') %>
+</body>	
 </html>

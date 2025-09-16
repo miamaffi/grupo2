@@ -9,3 +9,4 @@ router.get('/create/new', productController.create);
 router.get('/:id', productController.detail);
 
 module.exports = router;
+
