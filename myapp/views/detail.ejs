@@ -1,84 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- Include Head -->
-<%- include('partials/head') %>
+  <!-- head común -->
+  <%- include('partials/head') %>
 <body>
-	<!-- Header -->
-	<%- include('partials/header') %>
-	<!-- product detail -->
-	<div class="container products-wrapper">
-		<div class="d-flex align-items-center">
-			<h2 class="products-title">Nombre del producto</h2> 
-			<p class="product-detail-description">
-				<a href="product-edit.html">Editar</a>
-			</p>
-		</div>
-		<div class="product-detail">
-			<div class="row">
-				<article class="col-12 col-lg-8 product-detail-info">
-					<img src="./images/products/default-image.png" alt="" class="product-detail-img">
-					<p class="product-detail-description">
-						Descripción corta del producto. En la página principal solo se ven 2 líneas de estar descripción.Lorem ipsum dolor,
-						sit amet consectetur adipisicing elit. Tae ipsam amet eum, totam dolore libero illo unde? Consectetur dolorem neque
-						veritatis.</p>
-				</article>
-				<div class="col-12 col-lg-4">
-					<section class="comments">
-						<article>
-							<img src="./images/users/profile-default.png" alt="">
-							<div class="data">
-								<p class="user">
-								<strong> <a href="profile.html">Nombre usuario: </a> </strong>
-								 Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora doloribus enim aspernatur fugit corrupti suscipit sit dolore magnam, praesentium explicabo inventore molestias facilis labore. Fugit ipsa mollitia odit inventore consequuntur.</p>
-							</div>
-						</article>
-						<article>
-							<img src="./images/users/profile-default.png" alt="">
-							<div class="data">
-								<p class="user">
-									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
-									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur.</p>
-							</div>
-						</article>
-						<article>
-							<img src="./images/users/profile-default.png" alt="">
-							<div class="data">
-								<p class="user">
-									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
-									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur adipisicing elit.
-									</p>
-							</div>
-						</article>
-						<article>
-							<img src="./images/users/profile-default.png" alt="">
-							<div class="data">
-								<p class="user">
-									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
-									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet.</p>
-							</div>
-						</article>
-						<article>
-							<img src="./images/users/profile-default.png" alt="">
-							<div class="data">
-								<p class="user">
-									<strong> <a href="profile.html">Nombre usuario: </a> </strong>
-									Texto del comentario que escribió el usuario Lorem ipsum dolor sit amet consectetur adipisicing elit.
-									Tempora doloribus enim aspernatur fugit corrupti suscipit sit dolore</p>
-							</div>
-						</article>
+  <!-- header común -->
+  <%- include('partials/header') %>
 
-					</section>
-					<form class="form" action="" method="POST">
-						<input class="form-input" type="text" value="" placeholder="Agregar comentario">
-						<button type="submit" class="buy-now-button">AGREGAR COMENTARIO</button>
-					</form>
-					<hr>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /product detail -->
-<!-- /footer -->
-<%- include('partials/footer') %>
-</body>	
+  <!-- detalle de producto -->
+  <div class="container products-wrapper">
+    <div class="d-flex align-items-center">
+      <!-- título con el nombre del producto -->
+      <h2 class="products-title"><%= product.nombre %></h2>
+
+      <!-- enlace para editar (ruta de ejemplo) -->
+      <p class="product-detail-description" style="margin-left: 1rem;">
+        <a href="/products/<%= product.id %>/productEdit">Editar</a>
+      </p>
+    </div>
+
+    <div class="product-detail">
+      <div class="row">
+        <!-- columna con imagen y descripción -->
+        <article class="col-12 col-lg-8 product-detail-info">
+          <!-- imagen del producto -->
+          <img src="<%= product.imagen %>" alt="<%= product.nombre %>" class="product-detail-img">
+
+          <!-- descripción del producto -->
+          <p class="product-detail-description">
+            <%= product.descripcion %>
+          </p>
+        </article>
+
+        <!-- columna con comentarios y formulario -->
+        <div class="col-12 col-lg-4">
+          <section class="comments">
+            <!-- recorro los comentarios del producto -->
+            <% product.comentarios.forEach(function(c){ %>
+              <article>
+                <!-- avatar del usuario que comentó -->
+                <img src="<%= c.imagenPerfil %>" alt="<%= c.nombreUsuario %>">
+
+                <!-- texto del comentario -->
+                <div class="data">
+                  <p class="user">
+                    <strong><a href="/users/me"><%= c.nombreUsuario %>:</a></strong>
+                    <%= c.texto %>
+                  </p>
+                </div>
+              </article>
+            <% }) %>
+          </section>
+
+          <!-- formulario (por ahora maqueta) -->
+          <form class="form" action="/products/<%= product.id %>/comment" method="get">
+            <input class="form-input" type="text" name="body" placeholder="Agregar comentario">
+            <button type="submit" class="buy-now-button">AGREGAR COMENTARIO</button>
+          </form>
+
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /detalle de producto -->
+
+  <!-- footer común -->
+  <%- include('partials/footer') %>
+</body>
 </html>
+
+
+	

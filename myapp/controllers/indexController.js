@@ -1,12 +1,28 @@
+// Requerimos nuestro módulo propio (objeto literal) con require()
+const data = require('../db/catalogo'); // exporta { usuario, productos }
+
 module.exports = {
-    index: (req, res) => {
-      // Por ahora, sin módulo de datos: lista vacía
-      const products = [];
-      res.render('index', { title: 'Catálogo', products }); // PASAR products
-    },
-    search: (req, res) => {
-      const q = (req.query.q || '').trim();
-      res.render('results', { title: 'Resultados', q, results: [] });
-    }
-  };
-  
+  index: (req, res) => {
+    const products = data.productos;
+    res.render('index', { 
+      title: 'Catálogo de Flores', 
+      products,
+      user: data.usuario
+    });
+  },
+
+  search: (req, res) => {
+    const q = req.query.q; // lo que escribió el usuario en el buscador
+    const results = data.productos; // por ahora mostramos todos, no filtramos
+
+    res.render('results', { 
+      title: 'Resultados de búsqueda', 
+      q, 
+      results,
+      user: data.usuario
+    });
+  }
+};
+
+
+

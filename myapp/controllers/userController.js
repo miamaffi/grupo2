@@ -1,12 +1,25 @@
-// Placeholder para Punto 1 (luego lo reemplazamos por el módulo de datos)
-const me = {
-  username: 'usuario_demo',
-  email: 'demo@example.com',
-};
+// Traigo los datos desde el módulo localData
+const data = require('../db/catalogo');
 
 module.exports = {
-  login: (req, res) => res.render('login', { title: 'Login' }),
-  register: (req, res) => res.render('register', { title: 'Registración' }),
-  me: (req, res) => res.render('me', { title: 'Mi Perfil', user: me }),
-};
+  // Muestra la vista de login
+  login: (req, res) => {
+    res.render('login', { title: 'Login' });
+  },
 
+  // Muestra la vista de registro
+  register: (req, res) => {
+    res.render('register', { title: 'Registración' });
+  },
+
+   // Pasamos usuario y productos al EJS
+   me: (req, res) => {
+    res.render('me', { 
+      title: 'Mi Perfil', 
+      usuario: data.usuario,     // ahora la vista puede usar usuario.fotoPerfil, usuario.email, etc.
+      productos: data.productos  // opcional, si querés mostrar sus productos
+    });
+  
+  }
+
+};

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+  <!-- Head -->
+  <%- include('partials/head') %>
+  <body>
+    <!-- Header -->
+    <%- include('partials/header') %>
+
+    <!-- Contenedor principal -->
+    <div class="container products-wrapper">
+      <h2 class="products-title">Editar producto</h2>
+
+      <!-- Formulario de edición -->
+      <!-- Usamos product.id para identificar el producto -->
+      <form action="/products/<%= product.id %>/edit" method="GET">
+        
+        <!-- Imagen -->
+        <div class="mb-3">
+          <label for="image">Imagen (URL)</label>
+          <input 
+            type="text" 
+            id="image" 
+            name="image" 
+            class="form-input" 
+            value="<%= product.image %>">
+        </div>
+
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label for="name">Nombre</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            class="form-input" 
+            value="<%= product.name %>">
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-3">
+          <label for="description">Descripción</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            class="form-input"><%= product.description %></textarea>
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" class="buy-now-button">GUARDAR CAMBIOS</button>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+  </body>
+</html>
+
+	

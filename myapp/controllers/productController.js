@@ -1,13 +1,27 @@
-
+const data = require('../db/catalogo'); // importo el módulo de datos
 
 module.exports = {
-  create: (req, res) => res.render('create', { title: 'Agregar producto' }), // 'create'
+  create: (req, res) => {
+    res.render('create', { 
+      title: 'Agregar producto',
+      user: data.usuario
+    });
+  },
+
   detail: (req, res) => {
-    const product = { // placeholder estático
-      id: 1, name: 'Cámara Vintage', image: '/images/camara.jpg',
-      description: 'Cámara analógica de colección.',
-      comments: [{ user: 'lola', text: 'La tengo.' }]
-    };
-    res.render('detail', { title: product.name, product }); // 'detail'
+    // Por ahora mostramos siempre el primer producto
+    const product = data.productos[0];
+
+    res.render('detail', { 
+      title: product.name, 
+      product,
+      user: data.usuario
+    });
+  },
+  productEdit: (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const product = data.productos.find(p => p.id === id) || data.productos[0];
+    res.render('productEdit', { title: 'Editar producto', product, user: data.usuario });
   }
 };
+
