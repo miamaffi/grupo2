@@ -4,9 +4,9 @@
 
 /*====== Variables ======*/
 :root {
-  --yellow: #EAC926;
-  --dark-blue: #03264C;
-  --light-blue: #1259c3;
+  --yellow: #5FB6B0;
+  --dark-blue: #0b665b;
+  --light-blue: #7fd2cb;
   --gray: #666666;
   --light-gray: #ebebeb;
   --green: #39b54a;
@@ -74,8 +74,15 @@ hr {
 .main-header_home-link,
 .main-header_credit-link {
   display: block;
+ 
+}
+.main-header_home-link img {
+  width: 170px;   /* Ajusta según tu diseño */
+  height: 100px;  /* Igual que el ancho para que sea un círculo perfecto */
+  object-fit: cover; /* Esto hace que la imagen mantenga proporción y se recorte si es necesario */
 }
 
+ 
 .main-header_credit-link {
   font-size: 1.5em;
   margin-top: 20px;
@@ -140,7 +147,7 @@ hr {
 }
 
 .logout:hover{
-  color: #1259c3;
+  color: #71decc;
 }
 
 .left-navbar a,
@@ -154,11 +161,11 @@ hr {
 
 /*====== Banner ======*/
 .banner {
-  background-image: url(/images/img-home-banner.jpg);
+  background-image: url(/images/banner.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  height: 100px;
+  height: 50px;
 }
 
 
@@ -188,9 +195,14 @@ hr {
 
 .product-box_image {
   border-bottom: 1px solid var(--light-gray);
+    width: 100%;
+    height: 250px;   /* ajustá la altura según lo que quieras */
+    object-fit: cover;
+    border-radius: 5px;
 }
 
 .product-box_data {
+  background-color: #ffffff;
   padding: 15px;
   position: relative;
   display: flex;
@@ -470,7 +482,7 @@ textarea.form-input {
 }
 
 .btn{
-  background-color: #1259c3;
+  background-color: #165450;
   padding: 10px 20px;
   border-radius: 4px;
   color: #fff;
