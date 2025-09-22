@@ -4,7 +4,11 @@
   <%- include('partials/head') %>
 <body>
   <!-- header común -->
-  <%- include('partials/header') %>
+  <% if (logueado) { %>
+    <%- include('./partials/headerLogueado') %>
+  <% } else { %>
+    <%- include('./partials/header') %>
+  <% } %>
 
   <!-- detalle de producto -->
   <div class="container products-wrapper">
@@ -52,7 +56,7 @@
           </section>
 
           <!-- formulario (por ahora maqueta) -->
-          <form class="form" action="/products/<%= product.id %>/comment" method="get">
+          <form class="form" action="/products/<%= product.id %> method="GET">
             <input class="form-input" type="text" name="body" placeholder="Agregar comentario">
             <button type="submit" class="buy-now-button">AGREGAR COMENTARIO</button>
           </form>
@@ -64,9 +68,10 @@
   </div>
   <!-- /detalle de producto -->
 
-  <!-- footer común -->
+ <!-- footer común -->
   <%- include('partials/footer') %>
-</body>
+</body> 
+
 </html>
 
 

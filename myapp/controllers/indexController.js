@@ -7,7 +7,8 @@ module.exports = {
     res.render('index', { 
       title: 'Catálogo de Flores', 
       products,
-      user: data.usuario
+      user: data.usuario,
+      logueado: true
     });
   },
 
@@ -19,9 +20,11 @@ module.exports = {
       title: 'Resultados de búsqueda', 
       q, 
       results,
-      user: data.usuario
+      user: data.usuario,
+      logueado:true
     });
-  }
+  }, 
+  
 };
 
 

@@ -15,7 +15,8 @@ module.exports = {
     res.render('detail', { 
       title: product.name, 
       product,
-      user: data.usuario
+      user: data.usuario,
+      logueado: true
     });
   },
   productEdit: (req, res) => {

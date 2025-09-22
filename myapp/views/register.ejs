@@ -6,6 +6,7 @@
 <body>
 	<!-- Header -->
 	<%- include('partials/header') %>
+
 	<!-- Novedades -->
 	<div class="container products-wrapper">
 		<div class="row">
@@ -14,20 +15,23 @@
 			</div>
 			<!-- Show the "ultimos" products -->
 			<h2 class="col-12"> </h2>
-      <form action="/" method="GET">
+      <form action="/users/login" method="GET">
         <label>Email
-          <input type="email" name="email" required />
+          <input type="email" name="email" required value ="maildeprueba@gmail.com" />
         </label>
         <label>Usuario
-          <input type="text" name="username" required />
+          <input type="text" name="username" required value=" usernameprueba" />
         </label>
         <label>Contraseña
-          <input type="password" name="password" required />
+          <input type="password" name="password" required value = "123" />
         </label>
         <button type="submit" class="btn">Crear cuenta</button>
       </form>
+    </div>
+  </div>
 <!-- /footer -->
 <%- include('partials/footer') %>
 </body>
+
 </html>
 

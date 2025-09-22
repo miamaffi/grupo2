@@ -4,15 +4,15 @@
   <%- include('partials/head') %>
   <body>
     <!-- Header -->
-    <%- include('partials/header') %>
-
+    <%- include('partials/headerLogueado') %>
+    
     <!-- Contenedor principal -->
     <div class="container products-wrapper">
       <h2 class="products-title">Editar producto</h2>
 
       <!-- Formulario de edición -->
       <!-- Usamos product.id para identificar el producto -->
-      <form action="/products/<%= product.id %>/edit" method="GET">
+      <form action="/users/me" method="GET">
         
         <!-- Imagen -->
         <div class="mb-3">

@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <!-- Include Head -->
+<!-- head común -->
 <%- include('partials/head') %>
-<body>
-	<!-- Header -->
-  <%- include('partials/header') %>
-	<!-- Novedades -->
-	<div class="container products-wrapper">
-		<div class="row">
-			<div class="col-12">
-				<h2 class="products-title">Ingresar</h2>
-			</div>
-			<!-- Show the "ultimos" products -->
-			<h2 class="col-12"> </h2>
-      <form action="/" method="GET">
-        <label>Email
-        <input name="email" type="email" required>
-        </label>
-        <label>Contraseña
-        <input name="password" type="password" required>
-        </label>
-        <label>
-        <input name="remember" type="checkbox"> Recordarme
-        </label>
-        <button type="submit" class="btn">Ingresar</button>
-        </form>
-	<!-- /footer -->
-  <%- include('partials/footer') %>
-</body>
+
+  <body>
+    <!-- header común -->
+    <%- include('partials/header') %>
+
+      <!-- Novedades -->
+      <div class="container products-wrapper">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="products-title">Ingresar</h2>
+          </div>
+          <!-- Show the "ultimos" products -->
+          <h2 class="col-12"> </h2>
+          <form action="/" method="GET">
+            <label>Email
+              <input name="email" type="email" required value="franchesinagra@gmail.com">
+            </label>
+            <label>Contraseña
+              <input name="password" type="password" required value="123">
+            </label>
+            <label>
+              <input name="remember" type="checkbox"> Recordarme
+            </label>
+            <button type="submit" class="btn">Ingresar</button>
+          </form>
+        </div>
+      </div>
+      <!-- /footer -->
+      <%- include('partials/footer') %>
+  </body>
+
 </html>

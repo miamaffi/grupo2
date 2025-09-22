@@ -25,15 +25,17 @@
     <nav class="main-navbar">
       <ul class="left-navbar">
         <li><a href="/">Todos los productos</a></li>
+        <li><a href="/products/create/new">Cargar producto</a></li>
       </ul>
       <ul class="right-navbar">
         <li>
-          <a href="/users/register">Creá tu cuenta <i class="far fa-address-card"></i>
-          </a>
+          <a href="/users/me"><%= user.usuario %> <i class="fas fa-user"></i></a>
         </li>
         <li>
-          <a href="/users/login">Ingresá <i class="fas fa-sign-in-alt"></i></a>
+          <a href="/users/login"> Cerrar Sesión <i class="fas fa-sign-in-alt"></i></a>
+          
         </li>
+     
       </ul>
     </nav>
   </div>

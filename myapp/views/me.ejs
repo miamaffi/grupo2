@@ -4,30 +4,34 @@
   <%- include('partials/head') %>
 <body>
   <!-- header común -->
-  <%- include('partials/header') %>
+  <% if (logueado) { %>
+    <%- include('./partials/headerLogueado') %>
+  <% } else { %>
+    <%- include('./partials/header') %>
+  <% } %>
 
-  <!-- Datos del usuario -->
-  <section class="info-usuario container products-wrapper">
+  <!-- Datos del user -->
+  <section class="info-user container products-wrapper">
     <div class="row">
       <div class="img-container offset-3 col-2">
-        <!-- foto de perfil del usuario -->
-        <img src="<%= usuario.fotoPerfil %>" alt="foto de perfil" class="foto-perfil">
+        <!-- foto de perfil del user -->
+        <img src="<%= user.fotoPerfil %>" alt="foto de perfil" class="foto-perfil">
       </div>
 
       <div class="data-container col-6">
         <div class="d-flex align-items-center">
-          <!-- nombre de usuario -->
-          <h1 class="main-title"><%= usuario.usuario %></h1>
+          <!-- nombre de user -->
+          <h1 class="main-title"><%= user.usuario %></h1>
           <a class="btn mt-3 ml-4" href="#">SEGUIR</a>
         </div>
         <ul>
           <!-- email -->
-          <li><%= usuario.email %></li>
+          <li><%= user.email %></li>
         </ul>
       </div>
     </div>
   </section>
-  <!-- /Datos del usuario -->
+  <!-- /Datos del user -->
 
   <!-- Mis productos (mostramos el catálogo porque no hay userId en cada producto) -->
   <div class="container products-wrapper">
