@@ -4,10 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Importamos las rutas principales (home y búsqueda)
 var indexRouter = require('./routes/index');
+
+// Importamos las rutas de usuario (login, registro, perfil)
 var usersRouter = require('./routes/users');
+
+// Importamos las rutas de productos (crear, detalle, editar, etc.)
 var productRouter = require('./routes/product');
 
+// express es funcion de alto nivel
 var app = express();
 
 // view engine setup

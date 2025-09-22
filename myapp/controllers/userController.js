@@ -18,7 +18,7 @@ module.exports = {
       title: 'Mi Perfil', 
       user: data.usuario,     // ahora la vista puede usar usuario.fotoPerfil, usuario.email, etc.
       productos: data.productos,  // opcional, si querés mostrar sus productos
-      logueado: false
+      logueado: false  // estado de login (falso por ahora) se puede cambiar a true 
     });
   
   }
