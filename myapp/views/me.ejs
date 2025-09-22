@@ -39,8 +39,11 @@
       <div class="col-12">
         <h2 class="products-title">Mis productos</h2>
       </div>
-
-      <% productos.forEach(function(p){ %>
+      <% 
+      // Recorremos los productos con un for
+      for (let i = 0; i < productos.length; i++) { 
+        let p = productos[i]; // Producto actual
+      %>
         <div class="col-12 col-sm-6 col-lg-3">
           <section class="product-box">
             <a href="/products/<%= p.id %>">
@@ -55,12 +58,10 @@
             </a>
           </section>
         </div>
-      <% }) %>
+      <% } %> 
     </div>
   </div>
-  <!-- /Mis productos -->
-
-  <!-- footer común -->
+//footer
   <%- include('partials/footer') %>
 </body>
 </html>
