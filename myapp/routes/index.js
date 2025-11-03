@@ -7,6 +7,6 @@ const indexController = require('../controllers/indexController');
 
 // definimos rutas
 router.get('/', indexController.index); // Ruta principal, muestra el catálogo
-router.get('/search', indexController.search); // Ruta busqueda, muestra lo buscado
+//router.get('/search', indexController.search); // Ruta busqueda, muestra lo buscado
 
 module.exports = router;
