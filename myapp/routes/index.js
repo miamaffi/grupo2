@@ -1,12 +1,15 @@
-// requerimos expres y creamos un router para manejar las rutas
-const express = require('express');
-const router = express.Router();
+///myapp/routes/index.js
+var express = require('express');
+var router = express.Router();
+const indexController = require("../controllers/indexController");
 
-// Importamos el controlador
-const indexController = require('../controllers/indexController');
+// Home (catálogo)
+router.get('/', indexController.index);
 
-// definimos rutas
-router.get('/', indexController.index); // Ruta principal, muestra el catálogo
-//router.get('/search', indexController.search); // Ruta busqueda, muestra lo buscado
+// Mostrar formulario de registro
+router.get('/register', indexController.registro);
+
+// Procesar datos del formulario de registro
+router.post('/register', indexController.store);
 
 module.exports = router;

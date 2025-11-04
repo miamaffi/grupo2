@@ -4,6 +4,7 @@
   <%- include('partials/head') %>
 <body>
   <!-- header común -->
+  <% var logueado = (typeof user !== 'undefined' && user); %>
   <% if (logueado) { %>
     <%- include('./partials/headerLogueado') %>
   <% } else { %>
@@ -23,20 +24,23 @@
       </div>
       <!-- Recorro la lista de productos -->
 <% 
-// Usamos un for para recorrer los productos
-for (let i = 0; i < products.length; i++) { 
-  let product = products[i]; // Producto actual
+// Usamos un for para recorrer los productos que ahora vienen en dataCompleta
+for (let i = 0; i < dataCompleta.length; i++) { 
+  let product = dataCompleta[i]; // Producto actual 
 %>
   <div class="col-12 col-sm-6 col-lg-3">
     <section class="product-box">
       <a href="/products/<%= product.id %>">
         <figure class="product-box_image">
-          <img src="<%= product.imagen %>" alt="<%= product.nombre %>">
+          <img src="<%= product.imageFilename %>" alt="<%= product.name %>">
         </figure>
         <article class="product-box_data">
-          <h2><%= product.nombre %></h2>
-          <p><%= product.descripcion %></p>
-          <p>Comentarios: <%= product.comentarios.length %></p>
+          <h2><%= product.name %></h2>
+          <p><%= product.description %></p>
+          <p>
+            Comentarios: 
+            <%= (product.comentariosProducto && product.comentariosProducto.length) ? product.comentariosProducto.length : 0 %>
+          </p>
         </article>
       </a>
     </section>
@@ -48,5 +52,4 @@ for (let i = 0; i < products.length; i++) {
   <%- include('partials/footer') %>
  
 </body>
-
 </html>
