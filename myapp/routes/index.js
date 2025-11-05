@@ -12,4 +12,7 @@ router.get('/register', indexController.registro);
 // Procesar datos del formulario de registro
 router.post('/register', indexController.store);
 
+// busqueda 
+router.get('/search', indexController.busqueda);
+
 module.exports = router;

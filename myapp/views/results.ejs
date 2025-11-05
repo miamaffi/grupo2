@@ -2,42 +2,62 @@
 <html lang="es">
   <%- include('partials/head') %>
 <body>
-  <% if (logueado) { %>
-    <%- include('./partials/headerLogueado.ejs') %>
+  <% if (locals.user != undefined) { %>
+    <%- include('./partials/headerLogueado') %>
   <% } else { %>
-    <%- include('./partials/header.ejs') %>
+    <%- include('./partials/header') %>
   <% } %>
 
+  <!-- Contenedor principal -->
   <div class="container products-wrapper">
     <div class="row">
       <div class="col-12">
-        <h2 class="products-title">Resultados de búsqueda</h2>
-        <h3>Buscaste: "<%= q %>"</h3>
+        <% if (dataCompleta.length == 0) { %>
+          <h2 class="products-title">No hay resultados para su criterio de búsqueda</h2>
+        <% } else { %>
+          <h2 class="products-title">Resultados de búsqueda</h2>
+          <h3>Buscaste: "<%= criterio %>"</h3>
+        <% } %>
       </div>
-        <% 
-        // Recorremos todos los productos con un for
-        for (let i = 0; i < results.length; i++) { 
-          let p = results[i]; // Producto actual
-        %>
-          <div class="col-12 col-sm-6 col-lg-3">
-            <section class="product-box">
-              <a href="/products/<%= p.id %>">
-                <figure class="product-box_image">
-                  <img src="<%= p.imagen %>" alt="<%= p.nombre %>">
-                </figure>
-                <article class="product-box_data">
-                  <h2><%= p.nombre %></h2>
-                  <p><%= p.descripcion %></p>
-                  <p>Comentarios: <%= p.comentarios.length %></p>
-                </article>
-              </a>
-            </section>
-          </div>
-        <% } %> 
-      </div>   
+
+      <% for (let i = 0; i < dataCompleta.length; i++) { 
+          let p = dataCompleta[i];
+      %>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <section class="product-box">
+            <a href="/products/<%= p.id %>">
+              <figure class="product-box_image">
+                <img src="<%= p.imageFilename %>" alt="<%= p.name %>">
+              </figure>
+              <article class="product-box_data">
+                <h2><%= p.name %></h2>
+                <p><%= p.description %></p>
+
+                <!-- Nombre del usuario que lo subió -->
+                <% if (p.usuarioProducto) { %>
+                  <p>Publicado por: 
+                    <a href="/users/detalleUsuario/id/<%= p.usuarioProducto.id %>">
+                      <%= p.usuarioProducto.nombre %>
+                    </a>
+                  </p>
+                <% } %>
+
+                <!-- Comentarios -->
+                <% if (p.comentariosProducto && p.comentariosProducto.length > 0) { %>
+                  <p>Comentarios: <%= p.comentariosProducto.length %></p>
+                <% } else { %>
+                  <p>Comentarios: 0</p>
+                <% } %>
+              </article>
+            </a>
+          </section>
+        </div>
+      <% } %>
     </div>
   </div>
 
   <%- include('partials/footer') %>
 </body>
 </html>
+
+

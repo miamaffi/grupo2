@@ -1,11 +1,12 @@
 ///controllers/indexController.js
-const data = require("../database/models");
-const posteo = data.Product;  // Product es el alias del modelo
-const usuario = data.User;    // User es el alias del modelo
-const comentario = data.Comment; //Comment es el alias del modelo 
-const op = data.Sequelize.Op;
+const db = require("../database/models");
+const producto = db.Product;  // Product es el alias del modelo
+const usuario = db.User;    // User es el alias del modelo
+const comentario = db.Comment; //Comment es el alias del modelo 
+const op = db.Sequelize.Op;
 const bcrypt = require("bcryptjs"); //importa bcrypt para encriptar contra
-const indexController ={
+
+const indexController = {
     index :function(req, res) {
         let filtro = { 
             order : [['createdAt', 'DESC']], //ordena los productos del mas nuevo al mas viejo
@@ -15,7 +16,7 @@ const indexController ={
                 { association: 'comentariosProducto', include: [{ association: 'comentarioUsuario' }] }
             ]
         };
-        posteo.findAll(filtro) //busca todos los productos segun ese filtro
+        producto.findAll(filtro) //busca todos los productos segun ese filtro
         .then(function(result) {
             // mando toda la información a la vista
             return res.render('index', { dataCompleta: result });
@@ -164,6 +165,35 @@ const indexController ={
       console.log(error);
       return res.send("Ocurrió un error al validar el email. Intentá nuevamente.");
   });
-      },
-};
+    },
+
+    busqueda: function (req, res) {
+      // capturo la qs desde el header: name="q"
+      let busqueda = req.query.q;         
+      // ej: http://localhost:3000/search?q=rosa
+  
+      let filtro = {
+          //****ACA VA EL ORDER, LIMIT,WHERE***
+          where: {                        // ← OBJETO para que Sequelize filtre bien
+              name: { [op.like]: `%${busqueda}%` }  // comodín: AVA -> AVATAR
+          },
+          order : [['createdAt', 'DESC']],
+          limit: 10,
+          include: { 
+              all: true, 
+              nested: true
+          }
+      }; 
+  
+      producto.findAll(filtro) 
+      .then(function (results) {
+          // el mensaje se maneja en la vista con dataCompleta.length == 0
+          return res.render('results', { dataCompleta: results, criterio: busqueda });
+      })
+      .catch(function (error) {
+          return res.send(error);
+      });
+    },
+     
+  }
 module.exports = indexController;

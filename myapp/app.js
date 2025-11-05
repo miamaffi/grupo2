@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+let session = require('express-session');
 
 // Importamos las rutas principales (home y búsqueda)
 var indexRouter = require('./routes/index');
@@ -26,6 +27,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'Secret Message',
+  resave: false,
+  saveUninitialized: true
+}));
+
+/* Paso la información a vistas */
+app.use(function (req, res, next) {
+  if (req.session.user != undefined) {  
+    // user tiene todos los datos del usuario (guardado en controller)
+    res.locals.user = req.session.user;
+  }
+
+  // esta línea permite usar "logueado" en las vistas
+  res.locals.logueado = req.session.user != undefined;
+
+  // locals ayuda a que se vea en las views
+  return next();
+});
+
+// prefijos
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);

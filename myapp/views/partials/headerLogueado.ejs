@@ -25,17 +25,17 @@
     <nav class="main-navbar">
       <ul class="left-navbar">
         <li><a href="/">Todos los productos</a></li>
-        <li><a href="/products/create/new">Cargar producto</a></li>
+        <li><a href="/products/create">Agregar producto</a></li>
       </ul>
       <ul class="right-navbar">
+        <li><span>Hola, <%= user.username %> 🌼</span></li>
         <li>
-          <a href="/users/me"><%= user.usuario %> <i class="fas fa-user"></i></a>
+          <form action="/logout" method="POST" style="display:inline;">
+            <button type="submit" class="logout-btn">
+              Cerrar sesión <i class="fas fa-sign-out-alt"></i>
+            </button>
+          </form>
         </li>
-        <li>
-          <a href="/users/login"> Cerrar Sesión <i class="fas fa-sign-in-alt"></i></a>
-          
-        </li>
-     
       </ul>
     </nav>
   </div>

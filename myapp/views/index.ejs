@@ -3,13 +3,13 @@
   <!-- head común -->
   <%- include('partials/head') %>
 <body>
+  
   <!-- header común -->
-  <% var logueado = (typeof user !== 'undefined' && user); %>
-  <% if (logueado) { %>
-    <%- include('./partials/headerLogueado') %>
-  <% } else { %>
-    <%- include('./partials/header') %>
-  <% } %>
+<% if (logueado) { %>
+  <%- include('./partials/headerLogueado') %>
+<% } else { %>
+  <%- include('./partials/header') %>
+<% } %>
 
   <!-- Banner -->
   <div class="banner">
