@@ -1,25 +1,123 @@
-// Traigo los datos desde el módulo localData
-const data = require('../db/catalogo');
+const db = require("../database/models");
+const usuario = db.User;       // User es el alias del modelo
+const producto = db.Product;   // Product es el alias del modelo
+const bcrypt = require("bcryptjs");
 
-module.exports = {
-  // Muestra la vista de login
-  login: (req, res) => {
-    res.render('login', { title: 'Login', });
+const usuariosController = {
+    miPerfil: function (req, res) {
+      let ingresoId = req.params.id;
+      // Buscamos al usuario en la BD
+      usuario.findByPk(ingresoId)
+        .then((userData) => {
+          if (!userData) {
+            return res.send("Usuario no encontrado");
+          }
+          // Buscamos los productos de ese usuario
+          return producto.findAll({
+            where: { userId: ingresoId },
+            order: [['createdAt', 'DESC']],
+            include: { all: true, nested: true }
+          })
+          .then((productos) => {
+            res.render('me', { 
+              idUser: ingresoId,
+              user: userData, 
+              productos: productos,
+              logueado: req.session.user != undefined
+            });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.send("Error al cargar el perfil");
+        });
+    },
+  // FORMULARIO EDITAR PERFIL
+  editarPerfil: function (req, res) {
+    let idUser = req.params.id;
+    let autorPerfil = {};
+    if (req.session.user != undefined) {
+      usuario.findByPk(idUser)
+        .then((result) => {
+          autorPerfil.id = result.id;
+
+          if (req.session.user.id == autorPerfil.id) {
+            return res.render("editarPerfil", { datos: result });
+          } else {
+            res.redirect("/users/me/id/" + idUser);
+          }
+        })
+        .catch((error) => {
+          return console.log(error);
+        });
+    } else {
+      res.redirect("/users/me/id/" + idUser);
+    }
   },
+  // ACTUALIZAR PERFIL (POST)
+  updatePerfil: function (req, res) {
+    let idUser = req.params.id;
+    let autorPerfil = {};
+    let info = req.body;
 
-  // Muestra la vista de registro
-  register: (req, res) => {
-    res.render('register', { title: 'Registración', });
+    if (info.clave < 3) {
+      info.clave = req.session.user.password;
+    } else {
+      info.clave = bcrypt.hashSync(info.clave, 10);
+    }
+
+    let criterio = {
+      where: [{ id: idUser }]
+    };
+
+    if (req.session.user != undefined) {
+      usuario.findByPk(idUser)
+        .then((result) => {
+          autorPerfil.id = result.id;
+
+          if (req.session.user.id == autorPerfil.id) {
+            usuario.update(info, criterio)
+              .then(() => {
+                return res.redirect("/users/me/id/" + idUser);
+              })
+              .catch((error) => {
+                return console.log(error);
+              });
+          } else {
+            res.redirect("/users/me/id/" + idUser);
+          }
+        })
+        .catch((error) => {
+          return console.log(error);
+        });
+    } else {
+      res.redirect("/user/me/id/" + idUser);
+    }
   },
+  // DETALLE DE OTRO USUARIO
+  detalleUsuario: function (req, res) {
+    let ingresoId = req.params.id;
 
-   // Pasamos usuario y productos al EJS
-   me: (req, res) => {
-    res.render('me', { 
-      title: 'Mi Perfil', 
-      user: data.usuario,     // ahora la vista puede usar usuario.fotoPerfil, usuario.email, etc.
-      productos: data.productos,  // opcional, si querés mostrar sus productos
-      logueado: false  // estado de login (falso por ahora) se puede cambiar a true 
-    });
-  
-  }
-};
+    let relacion = {
+      include: {
+        all: true,
+        nested: true
+      }
+    };
+    usuario.findByPk(ingresoId, relacion)
+      .then(function (result) {
+        let totalProductos = result.usuarioProducto.length;
+        res.render('me', { 
+          userId: ingresoId, 
+          listaAboutUsuario: result, 
+          listaProductos: result.usuarioProducto,
+          totalProductos: totalProductos,
+          logueado: req.session.user != undefined
+        });
+      })
+      .catch(function (error) {
+        res.send(error);
+      });
+  },
+}
+module.exports = usuariosController;

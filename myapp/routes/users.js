@@ -1,18 +1,20 @@
-// requerimos expres y creamos un router para manejar las rutas
 var express = require('express');
 var router = express.Router();
-
 // Importamos el controlador de usuarios
 const userController = require('../controllers/userController');
 
-// GET /users/login
-router.get('/login', userController.login);
+// PERFIL DE USUARIO
+router.get('/me/id/:id', userController.miPerfil);
 
-// GET /users/register
-router.get('/register', userController.register);
+//ESTO ESTA MAL
+// EDITAR PERFIL - mostrar formulario
+router.get('/me/id/:id', userController.editarPerfil);
 
-// GET /users/me --> para ir al perfil 
-router.get('/me', userController.me);
+// EDITAR PERFIL - procesar formulario
+router.post('/me/id/:id', userController.updatePerfil);
 
-// Exportamos el router para usarlo en app.js
+// DETALLE DE OTRO USUARIO
+router.get('/me/id/:id', userController.detalleUsuario);
+
 module.exports = router;
+

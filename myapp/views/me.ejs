@@ -1,67 +1,101 @@
 <!DOCTYPE html>
 <html lang="es">
-  <!-- head común -->
+  <!-- Head común -->
   <%- include('partials/head') %>
-<body>
-  <!-- header común -->
-  <% if (logueado) { %>
-    <%- include('./partials/headerLogueado') %>
-  <% } else { %>
-    <%- include('./partials/header') %>
-  <% } %>
 
-  <!-- Datos del user -->
-  <section class="info-user container products-wrapper">
-    <div class="row">
-      <div class="img-container offset-3 col-2">
-        <!-- foto de perfil del user -->
-        <img src="<%= user.fotoPerfil %>" alt="foto de perfil" class="foto-perfil">
-      </div>
+  <body>
+    <!-- Header -->
+    <% if (logueado) { %>
+      <%- include('./partials/headerLogueado') %>
+    <% } else { %>
+      <%- include('./partials/header') %>
+    <% } %>
 
-      <div class="data-container col-6">
-        <div class="d-flex align-items-center">
-          <!-- nombre de user -->
-          <h1 class="main-title"><%= user.usuario %></h1>
-          <a class="btn mt-3 ml-4" href="#">SEGUIR</a>
+    <!-- PERFIL DE USUARIO -->
+    <section class="info-user container products-wrapper">
+      <div class="row">
+        <div class="img-container offset-3 col-2">
+          <!-- Foto de perfil -->
+          <img 
+            src="<%= user && user.profilePhoto ? user.profilePhoto : '/images/default-profile.png' %>" 
+            alt="Foto de perfil" 
+            class="foto-perfil">
         </div>
-        <ul>
-          <!-- email -->
-          <li><%= user.email %></li>
-        </ul>
+
+        <div class="data-container col-6">
+          <div class="d-flex align-items-center">
+            <!-- Nombre -->
+            <h1 class="main-title">
+              <%= user && user.username ? user.username : 'Usuario sin nombre' %>
+            </h1>
+
+            <!-- BOTÓN: Editar perfil o Seguir -->
+            <% if (logueado && user && user.id && res.locals.user && res.locals.user.id == user.id) { %>
+              <a class="btn mt-3 ml-4" href="/users/editarPerfil/id/<%= user.id %>">EDITAR PERFIL</a>
+            <% } else if (logueado) { %>
+              <a class="btn mt-3 ml-4" href="#">SEGUIR</a>
+            <% } %>
+          </div>
+
+          <!-- Info básica -->
+          <ul>
+            <li><strong>Email:</strong> <%= user && user.email ? user.email : 'Sin email' %></li>
+            <li><strong>Productos publicados:</strong> <%= productos ? productos.length : 0 %></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTOS DEL USUARIO -->
+    <div class="container products-wrapper mt-5">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="products-title">Productos</h2>
+        </div>
+
+        <% 
+          // ⚙️ Filtramos productos duplicados por id (por si Sequelize los repite)
+          const productosUnicos = [];
+          const idsVistos = new Set();
+          for (let i = 0; i < productos.length; i++) {
+            if (!idsVistos.has(productos[i].id)) {
+              idsVistos.add(productos[i].id);
+              productosUnicos.push(productos[i]);
+            }
+          }
+
+          if (productosUnicos && productosUnicos.length > 0) {
+            for (let i = 0; i < productosUnicos.length; i++) {
+              const p = productosUnicos[i];
+        %>
+              <div class="col-12 col-sm-6 col-lg-3">
+                <section class="product-box">
+                  <a href="/products/<%= p.id %>">
+                    <figure class="product-box_image">
+                      <img 
+                        src="<%= p.imageFilename ? p.imageFilename : '/images/default-product.png' %>" 
+                        alt="<%= p.name %>">
+                    </figure>
+                    <article class="product-box_data">
+                      <h2><%= p.name %></h2>
+                      <p><%= p.description %></p>
+                      <p>Comentarios: <%= p.comentariosProducto ? p.comentariosProducto.length : 0 %></p>
+                    </article>
+                  </a>
+                </section>
+              </div>
+        <% 
+            } 
+          } else { 
+        %>
+          <div class="col-12 text-center">
+            <p>No tenés productos cargados todavía.</p>
+          </div>
+        <% } %>
       </div>
     </div>
-  </section>
-  <!-- /Datos del user -->
 
-  <!-- Mis productos (mostramos el catálogo porque no hay userId en cada producto) -->
-  <div class="container products-wrapper">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="products-title">Mis productos</h2>
-      </div>
-      <% 
-      // Recorremos los productos con un for
-      for (let i = 0; i < productos.length; i++) { 
-        let p = productos[i]; // Producto actual
-      %>
-        <div class="col-12 col-sm-6 col-lg-3">
-          <section class="product-box">
-            <a href="/products/<%= p.id %>">
-              <figure class="product-box_image">
-                <img src="<%= p.imagen %>" alt="<%= p.nombre %>">
-              </figure>
-              <article class="product-box_data">
-                <h2><%= p.nombre %></h2>
-                <p><%= p.descripcion %></p>
-                <p>Comentarios: <%= p.comentarios.length %></p>
-              </article>
-            </a>
-          </section>
-        </div>
-      <% } %> 
-    </div>
-  </div>
-//footer
-  <%- include('partials/footer') %>
-</body>
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+  </body>
 </html>

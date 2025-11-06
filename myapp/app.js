@@ -5,13 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 let session = require('express-session');
 
-// Importamos las rutas principales (home y búsqueda)
+// Importamos las rutas principales 
 var indexRouter = require('./routes/index');
 
-// Importamos las rutas de usuario (login, registro, perfil)
+// Importamos las rutas de usuario 
 var usersRouter = require('./routes/users');
 
-// Importamos las rutas de productos (crear, detalle, editar, etc.)
+// Importamos las rutas de productos 
 var productRouter = require('./routes/product');
 
 // express es funcion de alto nivel

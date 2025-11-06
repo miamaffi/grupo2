@@ -118,23 +118,19 @@ const indexController = {
       errors.message = "El campo contraseña está vacío";
       res.locals.errors = errors;
       return res.render("register");
-
   } else if(info.clave.length < 3){ 
       errors.message = "¡Ups! El campo contraseña debe contener más de tres caracteres";
       res.locals.errors = errors;
       return res.render("register");
-
   } else if(info.nombre == ""){
       errors.message = "¡Ups! El campo nombre se encuentra vacío";
       res.locals.errors = errors;
       return res.render("register");
   }
-
   // VALIDACIÓN DE EMAIL 
   let criterio ={
       where: [{ email: info.email }]
   };
-
   usuario.findOne(criterio)
   .then(function(result){
       if (result != null){
@@ -142,7 +138,6 @@ const indexController = {
           res.locals.errors = errors;
           return res.render('register');
       }
-
       // crear usuario (hash de contraseña)
       let user = { 
           username     : info.nombre,
@@ -151,7 +146,6 @@ const indexController = {
           profilePhoto : info.fotoPerfil
           // createdAt/updatedAt automáticos con timestamps:true
       };
-
       usuario.create(user)
       .then(function(){
           return res.redirect("/login");
@@ -193,7 +187,6 @@ const indexController = {
       .catch(function (error) {
           return res.send(error);
       });
-    },
-     
+    }, 
   }
 module.exports = indexController;
