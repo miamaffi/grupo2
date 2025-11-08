@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 let session = require('express-session');
 
+
 // Importamos las rutas principales 
 var indexRouter = require('./routes/index');
 
@@ -33,18 +34,38 @@ app.use(session({
   saveUninitialized: true
 }));
 
+
 /* Paso la información a vistas */
 app.use(function (req, res, next) {
   if (req.session.user != undefined) {  
     // user tiene todos los datos del usuario (guardado en controller)
     res.locals.user = req.session.user;
+    return next();
   }
-
-  // esta línea permite usar "logueado" en las vistas
-  res.locals.logueado = req.session.user != undefined;
-
   // locals ayuda a que se vea en las views
   return next();
+}); //Asignamos un usuario a session en controller
+
+/*Configuración de Cookie */
+const db = require('./database/models');
+app.use((req,res,next)=>{
+  if (req.cookies.UserId != undefined && req.session.user == undefined) {
+    let idUsuarioCookie = req.cookies.UserId;
+
+    db.User.findByPk(idUsuarioCookie)
+    .then (function (user) {
+      req.session.user = user.dataValues;
+
+      res.locals.user = user.dataValues;
+    
+      return next()
+    })
+    .catch((error)=>{
+      return console.log(error);
+    })
+  } else {
+    return next();
+  }
 });
 
 // prefijos

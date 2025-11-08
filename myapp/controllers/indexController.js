@@ -89,7 +89,7 @@ const indexController = {
         res.clearCookie('UserId');
         // destruir sesión
         req.session.destroy(function(){
-            return res.redirect('/login');
+            return res.redirect('/');
         });
     },
     //registro

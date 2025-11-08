@@ -6,15 +6,14 @@ const userController = require('../controllers/userController');
 // PERFIL DE USUARIO
 router.get('/me/id/:id', userController.miPerfil);
 
-//ESTO ESTA MAL
 // EDITAR PERFIL - mostrar formulario
-router.get('/me/id/:id', userController.editarPerfil);
+router.get('/editarPerfil/id/:id', userController.editarPerfil);
 
 // EDITAR PERFIL - procesar formulario
-router.post('/me/id/:id', userController.updatePerfil);
+router.post('/editarPerfil/id/:id', userController.updatePerfil)
 
 // DETALLE DE OTRO USUARIO
-router.get('/me/id/:id', userController.detalleUsuario);
+router.get('/detalleUsuario/id/:id', userController.detalleUsuario);
 
 module.exports = router;
 

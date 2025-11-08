@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+  <%- include('./partials/head') %>
+
+  <body>
+    <% if (locals.user != undefined) { %>
+      <%- include('./partials/headerLogueado') %>
+    <% } else { %>
+      <%- include('./partials/header') %>
+    <% } %>
+    <main>
+      <section class="info-user container products-wrapper">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8">
+            <h1 class="main-title text-center mb-4">Editar perfil</h1>
+            <form class="form" action="/users/editarPerfil/id/<%= datos.id %>" method="POST">
+              <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input 
+                  id="nombre" 
+                  type="text" 
+                  name="nombre" 
+                  value="<%= datos.nombre %>" 
+                  placeholder="Ingrese su nombre" 
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input 
+                  id="email" 
+                  type="email" 
+                  name="email" 
+                  value="<%= datos.email %>"  
+                  placeholder="Ingrese su email" 
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label for="clave">Clave:</label>
+                <input 
+                  id="clave" 
+                  type="password" 
+                  name="clave" 
+                  value=""  
+                  placeholder="Ingrese su clave" 
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label for="fotoPerfil">Foto de perfil:</label>
+                <input 
+                  id="fotoPerfil" 
+                  type="text" 
+                  name="fotoPerfil" 
+                  value="<%= datos.fotoPerfil %>" 
+                  placeholder="Suba su foto de perfil">
+              </div>
+
+              <div class="form-group">
+                <label for="fecha">Fecha de nacimiento:</label>
+                <input 
+                  id="fecha" 
+                  type="date" 
+                  name="fecha" 
+                  value="<%= datos.fecha %>" 
+                  placeholder="Ingrese su fecha de cumpleaños">
+              </div>
+
+              <div class="form-group">
+                <label for="dni">DNI:</label>
+                <input 
+                  id="dni" 
+                  type="number" 
+                  name="dni" 
+                  value="<%= datos.dni %>"  
+                  placeholder="Ingrese su DNI" 
+                  required>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn mt-3">Enviar</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <%- include('./partials/footer') %>
+  </body>
+</html>

@@ -16,14 +16,17 @@ const usuariosController = {
           return producto.findAll({
             where: { userId: ingresoId },
             order: [['createdAt', 'DESC']],
-            include: { all: true, nested: true }
+            include: {
+              all: true,
+              nested: true
+            },
+            distinct: true // 👈 clave para evitar duplicados
           })
           .then((productos) => {
             res.render('me', { 
               idUser: ingresoId,
               user: userData, 
               productos: productos,
-              logueado: req.session.user != undefined
             });
           });
         })
@@ -36,24 +39,29 @@ const usuariosController = {
   editarPerfil: function (req, res) {
     let idUser = req.params.id;
     let autorPerfil = {};
+    console.log("🔐 Sesión actual:", req.session.user);
+
     if (req.session.user != undefined) {
+  
       usuario.findByPk(idUser)
         .then((result) => {
           autorPerfil.id = result.id;
-
+          // return res.send(autorPerfil.id)
           if (req.session.user.id == autorPerfil.id) {
             return res.render("editarPerfil", { datos: result });
           } else {
-            res.redirect("/users/me/id/" + idUser);
+            res.redirect("/users/detalleUsuario/id/" + idUser);
           }
         })
         .catch((error) => {
           return console.log(error);
         });
+  
     } else {
-      res.redirect("/users/me/id/" + idUser);
+  
+      res.redirect("/users/detalleUsuario/id/" + idUser);
     }
-  },
+  },  
   // ACTUALIZAR PERFIL (POST)
   updatePerfil: function (req, res) {
     let idUser = req.params.id;
@@ -65,7 +73,6 @@ const usuariosController = {
     } else {
       info.clave = bcrypt.hashSync(info.clave, 10);
     }
-
     let criterio = {
       where: [{ id: idUser }]
     };
@@ -106,13 +113,12 @@ const usuariosController = {
     };
     usuario.findByPk(ingresoId, relacion)
       .then(function (result) {
-        let totalProductos = result.usuarioProducto.length;
-        res.render('me', { 
+        let totalProductos = result.productosUsuario.length;
+        res.render('detalleUsuario', { 
           userId: ingresoId, 
           listaAboutUsuario: result, 
-          listaProductos: result.usuarioProducto,
+          listaProductos: result.productosUsuario,
           totalProductos: totalProductos,
-          logueado: req.session.user != undefined
         });
       })
       .catch(function (error) {

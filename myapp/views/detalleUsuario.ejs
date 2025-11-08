@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%- include('./partials/head') %>
+
+<body>
+  <% if (locals.user != undefined) { %>
+    <%- include('./partials/headerLogueado') %>
+  <% } else { %>
+    <%- include('./partials/header') %>
+  <% } %>
+
+  <main>     
+    <div class="user-detail container">
+      <section class="top main-content">
+        <img class="profile profile-usuarios" src="<%= listaAboutUsuario.profilePhoto %>" alt="<%= listaAboutUsuario.username %>">
+        
+        <div class="info-usuario">
+          <h1><%= listaAboutUsuario.username %></h1>
+
+          <% if (locals.user && locals.user.id == listaAboutUsuario.id) { %>
+            <a class="btn mt-3 ml-4" href="/users/editarPerfil/id/<%= listaAboutUsuario.id %>">EDITAR PERFIL</a>
+          <% } else { %>
+            <a class="btn mt-3 ml-4" href="#">SEGUIR</a>
+          <% } %>
+
+          <ul class="meta">
+            <li><%= totalProductos %> productos</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="bottom">
+        <% for (let i = 0; i < listaProductos.length; i++) { %>
+          <article class="post">
+            <a href="/products/detalle/id/<%= listaProductos[i].id %>">
+              <img src="<%= listaProductos[i].imagen %>" alt="<%= listaProductos[i].nombre %>">
+            </a>
+          </article>
+        <% } %>
+      </section>
+    </div>
+  </main>
+  <%- include('./partials/footer') %>
+</body>
+</html>

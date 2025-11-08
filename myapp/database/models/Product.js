@@ -58,3 +58,4 @@ module.exports = function (sequelize, dataTypes) {
     //retorno del modelo
     return Product;
 };
+
