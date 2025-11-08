@@ -1,46 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
   <%- include('./partials/head') %>
+  <body>
+    <% if (locals.user != undefined) { %>
+      <%- include('./partials/headerLogueado') %>
+    <% } else { %>
+      <%- include('./partials/header') %>
+    <% } %>
 
-<body>
-  <% if (locals.user != undefined) { %>
-    <%- include('./partials/headerLogueado') %>
-  <% } else { %>
-    <%- include('./partials/header') %>
-  <% } %>
-
-  <main>     
-    <div class="user-detail container">
-      <section class="top main-content">
-        <img class="profile profile-usuarios" src="<%= listaAboutUsuario.profilePhoto %>" alt="<%= listaAboutUsuario.username %>">
-        
-        <div class="info-usuario">
-          <h1><%= listaAboutUsuario.username %></h1>
-
-          <% if (locals.user && locals.user.id == listaAboutUsuario.id) { %>
-            <a class="btn mt-3 ml-4" href="/users/editarPerfil/id/<%= listaAboutUsuario.id %>">EDITAR PERFIL</a>
-          <% } else { %>
-            <a class="btn mt-3 ml-4" href="#">SEGUIR</a>
-          <% } %>
-
-          <ul class="meta">
-            <li><%= totalProductos %> productos</li>
+    <!-- PERFIL DE USUARIO -->
+    <section class="info-user container products-wrapper">
+      <div class="row">
+        <div class="img-container offset-3 col-2">
+          <img 
+            src="<%= listaAboutUsuario.profilePhoto %>" 
+            alt="Foto de perfil" 
+            class="foto-perfil">
+        </div>
+        <div class="data-container col-6">
+          <div class="d-flex align-items-center">
+            <h1 class="main-title"><%= listaAboutUsuario.username %></h1>
+            <% if (locals.user && locals.user.id == listaAboutUsuario.id) { %>
+              <a class="btn mt-3 ml-4" href="/users/editarPerfil/id/<%= listaAboutUsuario.id %>">EDITAR PERFIL</a>
+            <% } else { %>
+              <a class="btn mt-3 ml-4" href="#">SEGUIR</a>
+            <% } %>
+          </div>
+          <ul>
+            <li><strong>Email:</strong> <%= listaAboutUsuario.email %></li>
+            <li><strong>Productos publicados:</strong> <%= totalProductos %></li>
           </ul>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="bottom">
+    <!-- PRODUCTOS DEL USUARIO -->
+    <div class="container products-wrapper mt-5">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="products-title">Productos</h2>
+        </div>
+
         <% for (let i = 0; i < listaProductos.length; i++) { %>
-          <article class="post">
-            <a href="/products/detalle/id/<%= listaProductos[i].id %>">
-              <img src="<%= listaProductos[i].imagen %>" alt="<%= listaProductos[i].nombre %>">
-            </a>
-          </article>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <section class="product-box">
+              <a href="/products/<%= listaProductos[i].id %>">
+                <figure class="product-box_image">
+                  <img 
+                    src="<%= listaProductos[i].imageFilename ? listaProductos[i].imageFilename : '/images/default-product.png' %>" 
+                    alt="<%= listaProductos[i].name %>">
+                </figure>
+                <article class="product-box_data">
+                  <h2><%= listaProductos[i].name %></h2>
+                  <p><%= listaProductos[i].description %></p>
+                </article>
+              </a>
+            </section>
+          </div>
         <% } %>
-      </section>
+      </div>
     </div>
-  </main>
-  <%- include('./partials/footer') %>
-</body>
+
+    <%- include('./partials/footer') %>
+  </body>
 </html>
+
+
+
+
+

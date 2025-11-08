@@ -35,11 +35,8 @@
                 <!-- Nombre del usuario que lo subió -->
                 <% if (p.usuarioProducto) { %>
                   <p>Publicado por: 
-                    <a href="/users/detalleUsuario/id/<%= p.usuarioProducto.id %>">
-                      <%= p.usuarioProducto.nombre %>
-                    </a>
-                  </p>
-                <% } %>
+                  <a href="/users/detalleUsuario/id/<%= p.usuarioProducto.id %>"><%= p.usuarioProducto.username %></a>
+                  </p><% } %>   
 
                 <!-- Comentarios -->
                 <% if (p.comentariosProducto && p.comentariosProducto.length > 0) { %>

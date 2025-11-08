@@ -2,6 +2,7 @@
 <html lang="es">
   <!-- head común -->
   <%- include('partials/head') %>
+
 <body>
   <!-- header común -->
   <% if (locals.user != undefined) { %>
@@ -10,47 +11,68 @@
     <%- include('./partials/header') %>
   <% } %>
 
-  <!-- detalle de producto -->
+  <!-- DETALLE DE PRODUCTO -->
   <div class="container products-wrapper">
     <div class="d-flex align-items-center">
       <!-- título con el nombre del producto -->
-      <h2 class="products-title"><%= product.nombre %></h2>
+      <h2 class="products-title"><%= product.name %></h2>
 
-      <!-- enlace para editar (ruta de ejemplo) -->
+      <!-- enlace para editar -->
       <p class="product-detail-description" style="margin-left: 1rem;">
         <a href="/products/<%= product.id %>/productEdit">Editar</a>
       </p>
     </div>
+
     <div class="product-detail">
       <div class="row">
-        <!-- columna con imagen y descripción -->
+        <!-- COLUMNA: imagen, descripción y usuario -->
         <article class="col-12 col-lg-8 product-detail-info">
           <!-- imagen del producto -->
-          <img src="<%= product.imagen %>" alt="<%= product.nombre %>" class="product-detail-img">
-          <!-- descripción del producto -->
+          <img 
+            src="<%= product.imageFilename ? product.imageFilename : '/images/default-product.png' %>" 
+            alt="<%= product.name %>" 
+            class="product-detail-img">
+
+          <!-- descripción -->
           <p class="product-detail-description">
-            <%= product.descripcion %>
+            <%= product.description %>
+          </p>
+
+          <!-- usuario dueño del producto -->
+          <p class="product-detail-description">
+            Publicado por: 
+            <strong><a href="/users/detalleUsuario/id/<%= product.usuarioProducto.id %>"><%= product.usuarioProducto.username %></a></strong>
+
           </p>
         </article>
-        <!-- columna con comentarios y formulario -->
+
+        <!-- COLUMNA: comentarios -->
         <div class="col-12 col-lg-4">
           <section class="comments">
-            <!-- recorro los comentarios del producto -->
-            <% 
-            for (let i = 0; i < product.comentarios.length; i++) { 
-             let c = product.comentarios[i]; 
-              %>
-              <article>
-              <img src="<%= c.imagenPerfil %>" alt="<%= c.nombreUsuario %>">
-              <div class="data">
-              <p class="user">
-               <strong><a href="/users/me"><%= c.nombreUsuario %>:</a></strong>
-             <%= c.texto %>
-              </p>
-              </div>
-              </article>
-            <% } %> 
+            <% if (product.comentariosProducto && product.comentariosProducto.length > 0) { %>
+              <% for (let i = 0; i < product.comentariosProducto.length; i++) { 
+                   let c = product.comentariosProducto[i]; %>
+                <article>
+                  <img 
+                    src="<%= c.comentarioUsuario && c.comentarioUsuario.profilePhoto ? c.comentarioUsuario.profilePhoto : '/images/default-profile.png' %>" 
+                    alt="<%= c.comentarioUsuario ? c.comentarioUsuario.username : 'Usuario' %>">
+                  <div class="data">
+                    <p class="user">
+                      <strong>
+                        <a href="/users/detalleUsuario/id/<%= c.comentarioUsuario.id %>"><%= c.comentarioUsuario.username %>:</a>
+
+                      </strong>
+                      <%= c.body %>
+                    </p>
+                  </div>
+                </article>
+              <% } %>
+            <% } else { %>
+              <p class="product-detail-description">Aún no hay comentarios.</p>
+            <% } %>
           </section>
+
+          <!-- formulario de comentarios -->
           <form class="form" action="/products/<%= product.id %>" method="GET">  
             <input class="form-input" type="text" name="body" placeholder="Agregar comentario">
             <button type="submit" class="buy-now-button">AGREGAR COMENTARIO</button>
@@ -60,9 +82,11 @@
       </div>
     </div>
   </div>
+
   <%- include('partials/footer') %>
 </body> 
 </html>
+
 
 
 	

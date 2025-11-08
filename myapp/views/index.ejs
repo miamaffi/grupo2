@@ -40,8 +40,17 @@ for (let i = 0; i < dataCompleta.length; i++) {
             Comentarios: 
             <%= (product.comentariosProducto && product.comentariosProducto.length) ? product.comentariosProducto.length : 0 %>
           </p>
+
+          <p class="product-user">
+        Publicado por:
+          <a href="/users/detalleUsuario/id/<%= product.usuarioProducto.id %>"> <%= product.usuarioProducto.username %>
+          </a> </p>
         </article>
       </a>
+
+      
+
+
     </section>
   </div>
 <% } %> 

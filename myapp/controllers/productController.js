@@ -18,21 +18,23 @@ module.exports = {
 
   // Muestra el detalle de un producto
   detail: (req, res) => {
-    const id = req.params.id; // obtenemos el id del producto por parámetro
-    // Buscamos el producto en la base de datos por su id
+    const id = req.params.id;
+  
     product.findByPk(id, {
       include: [
-        { model: user, as: 'productUser' },
-        { model: comment, as: 'productComments', include: [{ model: user, as: 'commentUser' }] }
+        { association: 'usuarioProducto' }, // dueño del producto
+        { 
+          association: 'comentariosProducto', // comentarios del producto
+          include: [{ association: 'comentarioUsuario' }] // usuario de cada comentario
+        }
       ]
     })
     .then(result => {
       if (!result) {
         return res.status(404).send('Producto no encontrado');
       }
-      // Renderizamos la vista 'detail' pasándole datos del producto
       res.render('detail', { 
-        title: result.name, 
+        title: result.name,
         product: result
       });
     })
