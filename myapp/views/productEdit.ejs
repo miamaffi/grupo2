@@ -13,9 +13,7 @@
       <h2 class="products-title">Editar producto</h2>
 
       <!-- Formulario de edición -->
-      <!-- Usamos product.id para identificar el producto -->
-      <form action="/products/<%= product.id %>/update" method="POST">
-        
+        <form >
         <!-- Imagen -->
         <div class="mb-3">
           <label for="image">Imagen (URL)</label>
@@ -48,7 +46,10 @@
         </div>
 
         <!-- Botón guardar cambios -->
-        <button type="submit" class="buy-now-button">GUARDAR CAMBIOS</button>
+        <a href="/products/<%= product.id %>" class="buy-now-button">
+          GUARDAR CAMBIOS
+        </a>        
+    
       </form>
     </div>
 

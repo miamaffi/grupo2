@@ -7,14 +7,14 @@ const productController = require('../controllers/productController');
 
 // GET /products/create/new  
 router.get('/create/new', productController.create);
+
 //POST creacion producto
 router.post('/create', productController.store);
 
 // GET editar producto
 router.get('/:id/productEdit', productController.productEdit);
 
-//POST editar producto
-router.post('/:id/update', productController.update);
+//aca faltaria el POST editar producto para actualizar pero no vimos
 
 //detalle producto
 router.get('/:id', productController.detail);

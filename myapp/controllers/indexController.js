@@ -9,7 +9,6 @@ const bcrypt = require("bcryptjs"); //importa bcrypt para encriptar contra
 const indexController = {
     index: function (req, res) {
         let filtro = {
-            order: [['createdAt', 'DESC']], //ordena los productos del mas nuevo al mas viejo
             include: [
                 { association: 'usuarioProducto' },// dueño del producto
                 // comentarios del producto y, dentro, el usuario que comentó
@@ -38,7 +37,7 @@ const indexController = {
         let emailBuscado = req.body.email;     // name="email"
         let clave = req.body.password;         // name="password"
         let rememberMe = req.body.remember;     // name="remember"
-        /*Validación de formularios*/
+        // Validación de formularios // 
         let errors = {};
         if (emailBuscado == "") {
             errors.message = "El campo email está vacío";
@@ -55,19 +54,16 @@ const indexController = {
             usuario.findOne(criterio)
                 .then(function (result) {
                     if (result != null) {
-                        // en tu modelo, el hash está en 'password'
+                        // en el modelo modelo, el hash está en password
                         let check = bcrypt.compareSync(clave, result.password);
                         if (check) {
                             // Sesión del usuario
                             req.session.user = result.dataValues;
-                            // ACA ESTA EL PROBLEMA CREEMOS!!!!  NO ENTRA A ESTE IF 
                             if (rememberMe != undefined) {
-                                console.log("ERROR DE COOKIES");
-                                res.cookie("UserId", result.id, { maxAge: 2000 * 60 * 5 });
+                                res.cookie("UserId", result.id, { maxAge: 20000 * 60 * 5 });
                             }
-                            // Redirección post login (home o perfil)
+                            // Redirección post login a home
                             return res.redirect("/");
-
                         } else {
                             // contraseña incorrecta
                             return res.send("La contraseña es incorrecta.");
@@ -114,7 +110,7 @@ const indexController = {
             errors.message = "El campo contraseña está vacío";
             res.locals.errors = errors;
               return res.send(errors.message);
-        } else if (!info.clave || info.clave.length < 3) {
+        } else if (!info.clave || info.clave.length < 3) { // Si no hay clave tiene menos de 3 caracteres
             console.log("error en length");
             errors.message = "¡Ups! El campo contraseña debe contener más de tres caracteres";
             res.locals.errors = errors;
@@ -158,25 +154,19 @@ const indexController = {
                 return res.send("Ocurrió un error al validar el email. Intentá nuevamente.");
             });
     },
-
     busqueda: function (req, res) {
         // capturo la qs desde el header: name="q"
         let busqueda = req.query.q;
-        // ej: http://localhost:3000/search?q=rosa
-
         let filtro = {
             //****ACA VA EL ORDER, LIMIT,WHERE***
             where: {                        // ← OBJETO para que Sequelize filtre bien
                 name: { [op.like]: `%${busqueda}%` }  // comodín: AVA -> AVATAR
             },
-            order: [['createdAt', 'DESC']],
-            limit: 10,
-            include: {
-                all: true,
-                nested: true
-            }
+            include: [
+                { association: "usuarioProducto" },       // relación product- user
+                { association: "comentariosProducto" }    // relación product- comment
+            ]
         };
-
         producto.findAll(filtro)
             .then(function (results) {
                 // el mensaje se maneja en la vista con dataCompleta.length == 0

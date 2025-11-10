@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
           <div class="col-12 col-md-8">
             <h1 class="main-title text-center mb-4">Editar perfil</h1>
-            <form class="form" action="/users/editarPerfil/id/<%= datos.id %>" method="POST">
+              <form class="form">
               <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input 
@@ -57,32 +57,9 @@
                   value="<%= datos.fotoPerfil %>" 
                   placeholder="Suba su foto de perfil">
               </div>
-
-              <div class="form-group">
-                <label for="fecha">Fecha de nacimiento:</label>
-                <input 
-                  id="fecha" 
-                  type="date" 
-                  name="fecha" 
-                  value="<%= datos.fecha %>" 
-                  placeholder="Ingrese su fecha de cumpleaños">
-              </div>
-
-              <div class="form-group">
-                <label for="dni">DNI:</label>
-                <input 
-                  id="dni" 
-                  type="number" 
-                  name="dni" 
-                  value="<%= datos.dni %>"  
-                  placeholder="Ingrese su DNI" 
-                  required>
-              </div>
-
               <div class="text-center">
-                <button type="submit" class="btn mt-3">Enviar</button>
+                <a href="/users/me/id/<%= datos.id %>" class="btn mt-3">Enviar</a>
               </div>
-
             </form>
           </div>
         </div>

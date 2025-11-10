@@ -19,7 +19,7 @@ module.exports = {
   },
   //formulario creacion producto
   store: function (req, res) {
-    if (!req.session.user) {
+    if (req.session.user == undefined){
       // si no está logueado, lo mando al login
       return res.redirect("/users/login");
     }
@@ -45,7 +45,6 @@ module.exports = {
   // Muestra el detalle de un producto
   detail: (req, res) => {
     const id = req.params.id;
-  
     product.findByPk(id, {
       include: [ // relacion anidada
         { association: 'usuarioProducto' }, // dueño del producto
@@ -56,7 +55,7 @@ module.exports = {
       ]
     })
     .then(result => {
-      if (!result) {
+      if (!result) {  // entra al if cuando result no tiene valor, osea undefined o null
         return res.status(404).send('Producto no encontrado');
       }
       res.render('detail', { 
@@ -86,58 +85,11 @@ module.exports = {
       });
     })
     .catch(error => res.send(error));
-  },
-  // formulario edicion producto 
-  update: function (req, res) {
-    let idProducto = req.params.id;
-    let info = {
-      imageFilename: req.body.image,
-      name: req.body.name,
-      description: req.body.description
-    };
-    let criterio = {
-      where: [{ id: idProducto }]
-    };
-    // 1Verificamos si hay usuario logueado
-    if (req.session.user != undefined) {
-  
-      // Buscamos el producto para validar si existe y si es del usuario logueado
-      product.findByPk(idProducto)
-        .then((result) => {
-          if (!result) {
-            return res.status(404).send("Producto no encontrado");
-          }
-          let autorProducto = result.userId;
-          // Si el producto pertenece al usuario logueado, actualiza
-          if (req.session.user.id == autorProducto) {
-            product.update(info, criterio)
-              .then(() => {
-                return res.redirect("/products/" + idProducto);
-              })
-              .catch((error) => {
-                console.log("Error al actualizar el producto:", error);
-                return res.status(500).send("Error al actualizar el producto");
-              });
-  
-          } else {
-            // 4Si no es el dueño, redirige al detalle sin actualizar
-            return res.redirect("/products/" + idProducto);
-          }
-        })
-        .catch((error) => {
-          console.log("Error al buscar producto:", error);
-          return res.status(500).send("Error al buscar producto");
-        });
-  
-    } else {
-      // Si no está logueado, redirige
-      return res.redirect("/users/login");
-    }
   }, 
   createComment: (req, res) => {
     const idProducto = req.params.id;
     // Si el usuario no está logueado, redirigimos al login
-    if (!req.session.user) {
+    if (req.session.user === undefined )      {
       return res.redirect('/users/login');
     }
     const newComment = {
