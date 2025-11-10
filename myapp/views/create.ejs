@@ -2,43 +2,44 @@
 <html lang="es">
 <!-- Include Head -->
 <%- include('partials/head') %>
-<body>
-	<!-- Header -->
-	<%- include('partials/headerLogueado') %>
 
-	<!-- Novedades -->
-	<div class="container products-wrapper">
-		<div class="row">
-			<div class="col-12">
-				<h2 class="products-title">Agregar productos</h2>
-			</div>
-			<!-- Show the "ultimos" products -->
-			<h2 class="col-12"></h2>
-      <!-- Formulario -->
-      <div class="col-12 col-md-8 offset-md-2">
-        <form action="/products/create" method="GET">
-          <!-- Imagen -->
-          <div class="mb-3">
-            <label for="image" class="form-label">Imagen (URL)</label>
-            <input type="text" class="form-control" id="image" name="image" placeholder="Pegá la URL de la imagen">
+  <body>
+    <!-- Header -->
+    <%- include('partials/headerLogueado') %>
+      <!-- Novedades -->
+      <div class="container products-wrapper">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="products-title">Agregar productos</h2>
           </div>
-          <!-- Nombre -->
-          <div class="mb-3">
-            <label for="name" class="form-label">Nombre del producto</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Ej: Plumeria">
+          <!-- Show the "ultimos" products -->
+          <h2 class="col-12"></h2>
+          <!-- Formulario -->
+          <div class="col-12 col-md-8 offset-md-2">
+            <form action="/products/create" method="POST">
+              <!-- Imagen -->
+              <div class="mb-3">
+                <label for="imageFilename" class="form-label">Nombre de la imagen (con extensión)</label>
+                <input type="text" class="form-control" id="imageFilename" name="imageFilename" placeholder="ej: rosa.png" required>
+              </div>
+              <!-- Nombre -->
+              <div class="mb-3">
+                <label for="name" class="form-label">Nombre del producto</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Ej: Plumeria">
+              </div>
+              <!-- Descripción -->
+              <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description" name="description" rows="4"
+                  placeholder="Escribí una breve descripción de la flor"></textarea>
+              </div>
+              <!-- Botón -->
+              <button type="submit" class="btn btn-primary w-100">Agregar producto</button>
+            </form>
           </div>
-          <!-- Descripción -->
-          <div class="mb-3">
-            <label for="description" class="form-label">Descripción</label>
-            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Escribí una breve descripción de la flor"></textarea>
-          </div>
-          <!-- Botón -->
-          <button type="submit" class="btn btn-primary w-100">Agregar producto</button>
-        </form> 
+        </div>
       </div>
-    </div>
-  </div>
-  <!-- /footer -->
-  <%- include('partials/footer') %>
-</body>
+      <!-- /footer -->
+      <%- include('partials/footer') %>
+  </body>
 </html>

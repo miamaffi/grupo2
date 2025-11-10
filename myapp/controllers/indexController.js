@@ -7,9 +7,9 @@ const op = db.Sequelize.Op;
 const bcrypt = require("bcryptjs"); //importa bcrypt para encriptar contra
 
 const indexController = {
-    index :function(req, res) {
-        let filtro = { 
-            order : [['createdAt', 'DESC']], //ordena los productos del mas nuevo al mas viejo
+    index: function (req, res) {
+        let filtro = {
+            order: [['createdAt', 'DESC']], //ordena los productos del mas nuevo al mas viejo
             include: [
                 { association: 'usuarioProducto' },// dueño del producto
                 // comentarios del producto y, dentro, el usuario que comentó
@@ -17,13 +17,13 @@ const indexController = {
             ]
         };
         producto.findAll(filtro) //busca todos los productos segun ese filtro
-        .then(function(result) {
-            // mando toda la información a la vista
-            return res.render('index', { dataCompleta: result });
-        })
-        .catch(function(error) {
-          return res.send(error);
-        });
+            .then(function (result) {
+                // mando toda la información a la vista
+                return res.render('index', { dataCompleta: result });
+            })
+            .catch(function (error) {
+                return res.send(error);
+            });
     },
     //login
     login: function (req, res) {
@@ -34,10 +34,10 @@ const indexController = {
         }
     },
     //loginpost
-    loginPost: function (req,res,next) {
+    loginPost: function (req, res, next) {
         let emailBuscado = req.body.email;     // name="email"
         let clave = req.body.password;         // name="password"
-        let rememberMe= req.body.remember;     // name="remember"
+        let rememberMe = req.body.remember;     // name="remember"
         /*Validación de formularios*/
         let errors = {};
         if (emailBuscado == "") {
@@ -49,144 +49,142 @@ const indexController = {
             res.locals.errors = errors;
             return res.render("login");
         } else {
-            let criterio ={
+            let criterio = {
                 where: [{ email: emailBuscado }]
             };
             usuario.findOne(criterio)
-            .then(function(result){
-                if (result != null){
-                    // en tu modelo, el hash está en 'password'
-                    let check = bcrypt.compareSync(clave, result.password);
-                    if (check) { 
-                        // Sesión del usuario
-                        req.session.user = result.dataValues;
+                .then(function (result) {
+                    if (result != null) {
+                        // en tu modelo, el hash está en 'password'
+                        let check = bcrypt.compareSync(clave, result.password);
+                        if (check) {
+                            // Sesión del usuario
+                            req.session.user = result.dataValues;
+                            // ACA ESTA EL PROBLEMA CREEMOS!!!!  NO ENTRA A ESTE IF 
+                            if (rememberMe != undefined) {
+                                console.log("ERROR DE COOKIES");
+                                res.cookie("UserId", result.id, { maxAge: 2000 * 60 * 5 });
+                            }
+                            // Redirección post login (home o perfil)
+                            return res.redirect("/");
 
-                        // Recordarme (cookie simple con id)
-                        if(rememberMe != undefined){
-                            res.cookie("UserId", result.id, { maxAge: 2000*60*5 });
+                        } else {
+                            // contraseña incorrecta
+                            return res.send("La contraseña es incorrecta.");
                         }
-                        // Redirección post login (home o perfil)
-                        return res.redirect ("/");
-
                     } else {
-                        // contraseña incorrecta
-                        return res.send("La contraseña es incorrecta.");
+                        // mail no existe
+                        return res.send("Este mail es incorrecto.");
                     }
-                } else {
-                    // mail no existe
-                    return res.send("Este mail es incorrecto.");
-                }
-            })
-            .catch(function(error){
-                console.log(error);
-                return res.send("Ocurrió un error al intentar iniciar sesión.");
-            });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    return res.send("Ocurrió un error al intentar iniciar sesión.");
+                });
         }
     },
     // Logout
-    logout : function (req, res) {
+    logout: function (req, res) {
         // limpiar cookie de recordarme
         res.clearCookie('UserId');
         // destruir sesión
-        req.session.destroy(function(){
+        req.session.destroy(function () {
             return res.redirect('/');
         });
     },
     //registro
     registro: function (req, res) {
-  if (req.session.user != undefined) {
-      return res.redirect("/");
-  } else {
-      // usás la vista "register"
-      return res.render('register');
-  }
+        if (req.session.user != undefined) {
+            return res.redirect("/");
+        } else {
+            // usás la vista "register"
+            return res.render('register');
+        }
     },
-    store:function (req,res,next) {
-
-  let info = req.body;
-
-  /*Validamos lo que se ingresa */
-  let errors = {};
-
-  // validaciones básicas (como en tus apuntes)
-  if (info.email == "") {
-      errors.message = "El campo email está vacío";
-      res.locals.errors = errors;
-      return res.render("register");
-  
-  } else if(info.clave == ""){
-      errors.message = "El campo contraseña está vacío";
-      res.locals.errors = errors;
-      return res.render("register");
-  } else if(info.clave.length < 3){ 
-      errors.message = "¡Ups! El campo contraseña debe contener más de tres caracteres";
-      res.locals.errors = errors;
-      return res.render("register");
-  } else if(info.nombre == ""){
-      errors.message = "¡Ups! El campo nombre se encuentra vacío";
-      res.locals.errors = errors;
-      return res.render("register");
-  }
-  // VALIDACIÓN DE EMAIL 
-  let criterio ={
-      where: [{ email: info.email }]
-  };
-  usuario.findOne(criterio)
-  .then(function(result){
-      if (result != null){
-          errors.message = "El campo email se encuentra repetido";
-          res.locals.errors = errors;
-          return res.render('register');
-      }
-      // crear usuario (hash de contraseña)
-      let user = { 
-          username     : info.nombre,
-          email        : info.email,
-          password     : bcrypt.hashSync(info.clave,10), // guarda hasheada
-          profilePhoto : info.fotoPerfil
-          // createdAt/updatedAt automáticos con timestamps:true
-      };
-      usuario.create(user)
-      .then(function(){
-          return res.redirect("/login");
-      })
-      .catch(function(error){
-          // si UNIQUE (email) u otro error de inserción
-          return res.send("No se pudo registrar: el email ya existe o los datos son inválidos.");
-      });
-  })
-  .catch(function(error){
-      console.log(error);
-      return res.send("Ocurrió un error al validar el email. Intentá nuevamente.");
-  });
+    store: function (req, res, next) {
+        let info = req.body;
+        let errors = {};
+        // validaciones
+        if (info.email == "") {
+            errors.message = "El campo email está vacío";
+            res.locals.errors = errors;
+              return res.send(errors.message);
+        } else if (info.clave == "") {
+            console.log("error en clave");
+            errors.message = "El campo contraseña está vacío";
+            res.locals.errors = errors;
+              return res.send(errors.message);
+        } else if (!info.clave || info.clave.length < 3) {
+            console.log("error en length");
+            errors.message = "¡Ups! El campo contraseña debe contener más de tres caracteres";
+            res.locals.errors = errors;
+            return res.send(errors.message);
+        } else if (info.lenght < 3) {   
+            console.log("error en nombre");
+            errors.message = "¡Ups! El campo nombre se encuentra vacío";
+            res.locals.errors = errors;
+            return res.send(errors.message);
+        }
+        // VALIDACIÓN DE EMAIL 
+        let criterio = {
+            where: [{ email: info.email }]
+        };
+        usuario.findOne(criterio)
+            .then(function (result) {
+                if (result) {
+                //if (result.email === info.email) {
+                    errors.message = "El campo email se encuentra repetido";
+                    res.locals.errors = errors;
+                    return res.send("No se pudo registrar: el email ya existe o los datos son inválidos.");
+                }
+                // crear usuario (hash de contraseña)
+                let user = {
+                    username: info.nombre,
+                    email: info.email,
+                    password: bcrypt.hashSync(info.clave, 10), // guarda hasheada
+                    profilePhoto: info.fotoPerfil
+                };
+                usuario.create(user)
+                    .then(function () {
+                        console.log("login log"); //para chequear si entra
+                        return res.redirect("/users/login");
+                    })
+                    .catch(function (error) {
+                        return res.send("No se pudo registrar: Error en la comunicacion con la base de datos.");
+                    });
+            })
+            .catch(function (error) {
+                console.log(error);
+                return res.send("Ocurrió un error al validar el email. Intentá nuevamente.");
+            });
     },
 
     busqueda: function (req, res) {
-      // capturo la qs desde el header: name="q"
-      let busqueda = req.query.q;         
-      // ej: http://localhost:3000/search?q=rosa
-  
-      let filtro = {
-          //****ACA VA EL ORDER, LIMIT,WHERE***
-          where: {                        // ← OBJETO para que Sequelize filtre bien
-              name: { [op.like]: `%${busqueda}%` }  // comodín: AVA -> AVATAR
-          },
-          order : [['createdAt', 'DESC']],
-          limit: 10,
-          include: { 
-              all: true, 
-              nested: true
-          }
-      }; 
-  
-      producto.findAll(filtro) 
-      .then(function (results) {
-          // el mensaje se maneja en la vista con dataCompleta.length == 0
-          return res.render('results', { dataCompleta: results, criterio: busqueda });
-      })
-      .catch(function (error) {
-          return res.send(error);
-      });
-    }, 
-  }
+        // capturo la qs desde el header: name="q"
+        let busqueda = req.query.q;
+        // ej: http://localhost:3000/search?q=rosa
+
+        let filtro = {
+            //****ACA VA EL ORDER, LIMIT,WHERE***
+            where: {                        // ← OBJETO para que Sequelize filtre bien
+                name: { [op.like]: `%${busqueda}%` }  // comodín: AVA -> AVATAR
+            },
+            order: [['createdAt', 'DESC']],
+            limit: 10,
+            include: {
+                all: true,
+                nested: true
+            }
+        };
+
+        producto.findAll(filtro)
+            .then(function (results) {
+                // el mensaje se maneja en la vista con dataCompleta.length == 0
+                return res.render('results', { dataCompleta: results, criterio: busqueda });
+            })
+            .catch(function (error) {
+                return res.send(error);
+            });
+    },
+}
 module.exports = indexController;

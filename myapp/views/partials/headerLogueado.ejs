@@ -25,12 +25,14 @@
     <nav class="main-navbar">
       <ul class="left-navbar">
         <li><a href="/">Todos los productos</a></li>
-        <li><a href="/products/create">Agregar producto</a></li>
+        <li><a href="/products/create/new">Agregar producto</a></li>
       </ul>
       <ul class="right-navbar">
-        <li><span>Hola, <%= user.username %> 🌼</span></li>
         <li>
-          <form action="/logout" method="POST" style="display:inline;">
+          <a href="/users/me/id/<%= user.id %>">Mi perfil: <%= user.username %> 🌼</a>
+        </li>
+        
+          <form action="/users/logout" method="GET" style="display:inline;">
             <button type="submit" class="logout-btn">
               Cerrar sesión <i class="fas fa-sign-out-alt"></i>
             </button>

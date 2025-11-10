@@ -3,16 +3,18 @@
   <!-- Head -->
   <%- include('partials/head') %>
   <body>
-    <!-- Header -->
-    <%- include('partials/headerLogueado') %>
-    
+    <% if (locals.user != undefined) { %>
+      <%- include('./partials/headerLogueado') %>
+    <% } else { %>
+      <%- include('./partials/header') %>
+    <% } %>
     <!-- Contenedor principal -->
     <div class="container products-wrapper">
       <h2 class="products-title">Editar producto</h2>
 
       <!-- Formulario de edición -->
       <!-- Usamos product.id para identificar el producto -->
-      <form action="/users/me" method="GET">
+      <form action="/products/<%= product.id %>/update" method="POST">
         
         <!-- Imagen -->
         <div class="mb-3">
@@ -22,7 +24,7 @@
             id="image" 
             name="image" 
             class="form-input" 
-            value="<%= product.image %>">
+            value="<%= product.imageFilename %>">
         </div>
 
         <!-- Nombre -->
@@ -45,7 +47,7 @@
             class="form-input"><%= product.description %></textarea>
         </div>
 
-        <!-- Botón guardar cambios lleva a pagina de perfil ME-->
+        <!-- Botón guardar cambios -->
         <button type="submit" class="buy-now-button">GUARDAR CAMBIOS</button>
       </form>
     </div>
@@ -54,5 +56,3 @@
     <%- include('partials/footer') %>
   </body>
 </html>
-
-	

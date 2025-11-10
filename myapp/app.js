@@ -24,7 +24,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })); //para leer los datos del form
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -50,14 +50,11 @@ app.use(function (req, res, next) {
 const db = require('./database/models');
 app.use((req,res,next)=>{
   if (req.cookies.UserId != undefined && req.session.user == undefined) {
-    let idUsuarioCookie = req.cookies.UserId;
-
+    let idUsuarioCookie = req.cookies.UserId
     db.User.findByPk(idUsuarioCookie)
     .then (function (user) {
       req.session.user = user.dataValues;
-
       res.locals.user = user.dataValues;
-    
       return next()
     })
     .catch((error)=>{

@@ -7,17 +7,17 @@ const indexController = require("../controllers/indexController");
 router.get('/', indexController.index);
 
 // Mostrar formulario de registro
-router.get('/users/register', indexController.registro);
+router.get('/users/register', indexController.registro); // router.get('/users/register', MIDDLEWARE,indexController.registro);
+// Procesar datos del formulario de registro
+router.post('/user/register', indexController.store);
 
 // Login
-router.get('/users/login', indexController.login);       // muestra el formulario
-router.post('/users/login', indexController.loginPost);  // procesa el login
+router.get('/users/login', indexController.login);       
+//ruta por post que procesa la informacion del usuario
+router.post('/users/login', indexController.loginPost); 
 
 // Logout
 router.get('/users/logout', indexController.logout);     
-
-// Procesar datos del formulario de registro
-router.post('/user/register', indexController.store);
 
 // busqueda 
 router.get('/search', indexController.busqueda);

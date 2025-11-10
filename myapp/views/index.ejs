@@ -3,8 +3,6 @@
   <!-- head común -->
   <%- include('partials/head') %>
 <body>
-  
-  <!-- header común -->
   <% if (locals.user != undefined) { %>
     <%- include('./partials/headerLogueado') %>
   <% } else { %>
